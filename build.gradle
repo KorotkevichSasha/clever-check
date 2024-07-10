@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.clevertec'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testImplementation 'junit:junit:4.12'
+    implementation 'org.postgresql:postgresql:42.7.3'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task runCheckRunner(type: JavaExec) {
+    main = 'ru.clevertec.check.CheckRunner'
+    classpath = sourceSets.main.runtimeClasspath
+    args = ['1-2', 'discountCard=1234', 'balanceDebitCard=100.0'] // Пример аргументов
+}
+
+task buildAndRun(dependsOn: ['build', 'runCheckRunner']) {
+    doLast {
+        println 'Build and run tasks completed.'
+    }
+}
